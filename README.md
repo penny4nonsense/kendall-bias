@@ -6,6 +6,8 @@ This repository contains a derivation of the Kendall (1948) bias, i.e., the fini
 
 * `Kendall Bias.ipynb`: Step-by-step derivation using a Taylor expansion of a ratio of random variables.
 * `Kendall Bias.tex`: LaTeX export of the jupyter notebook
+* `Kendall Bias.pdf`: PDF export of the jupyter notebook
+
 ## Notes
 
 * The derivation follows the standard decomposition of the AR(1) estimator as a ratio and expands around expectations.
