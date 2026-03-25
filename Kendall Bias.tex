@@ -1,0 +1,2234 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Kendall Bias}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Problem setup}\label{problem-setup}
+
+We consider the AR(1) data generating process \[
+y_t = \rho y_{t-1}+e_t
+\] where \(\{e_t\}\) is a white noise process with mean zero and
+variance \(\sigma^2\). The goal is to estimate the persistence parameter
+\(\rho\) using ordinary least squares.
+
+We write the same model in regression form \[
+y_t = \beta_1 y_{t-1}+u_t
+\] where \(\beta_1\) is the parameter to be estimated and \(u_t\) is the
+regression error term. Under the true data generating process, we have
+\(\beta_1 = \rho\) and \(u_t = e_t\).
+
+The OLS estimator for \(\beta_1\) is \[
+\begin{aligned}
+\hat\beta_{1} &= \frac{\sum_{t=2}^{T} y_t y_{t-1}}{\sum_{t=2}^{T} y_{t-1}^2}
+\end{aligned}
+\]
+
+Substituting the true model \(y_t = \rho y_{t-1} + e_t\) into the
+numerator gives \[
+\begin{aligned}
+\hat\beta_{1}
+&= \frac{\sum_{t=2}^{T} (\rho y_{t-1}+e_t) y_{t-1}}{\sum_{t=2}^{T} y_{t-1}^2} \\
+&= \frac{\rho \sum_{t=2}^{T} y_{t-1}^2 + \sum_{t=2}^{T} e_t y_{t-1}}{\sum_{t=2}^{T} y_{t-1}^2} \\
+&= \rho+\frac{\sum_{t=2}^{T} e_t y_{t-1}}{\sum_{t=2}^{T} y_{t-1}^2}
+\end{aligned}
+\]
+
+This decomposition is the key starting point for the bias calculation.
+It shows that the estimator differs from the true parameter \(\rho\) by
+a ratio of two random quantities: - the numerator \(\sum e_t y_{t-1}\),
+which captures the correlation between the error and the regressor - the
+denominator \(\sum y_{t-1}^2\), which rescales the estimator
+
+Even though \(e_t\) is uncorrelated with \(y_{t-1}\) in expectation at a
+fixed time, the ratio structure introduces bias in finite samples. The
+rest of the derivation focuses on understanding the expectation of this
+ratio.
+
+\subsection{Background computations}\label{background-computations}
+
+To analyze the terms above, we first express \(y_t\) in terms of initial
+conditions and the sequence of shocks.
+
+Starting from the AR(1) recursion: \[
+\begin{aligned}
+y_t&=\rho y_{t-1}+e_t\\
+&=\rho^2 y_{t-2}+\rho e_{t-1}+e_t\\
+&=\rho^t y_{0}+\sum_{s=0}^{t-1}\rho^s e_{t-s}
+\end{aligned}
+\]
+
+This representation writes \(y_t\) as a weighted sum of past shocks plus
+the initial condition. It makes clear that \(y_t\) depends on the entire
+history of innovations, with weights that decay geometrically at rate
+\(\rho\).
+
+We next compute the second moment of \(y_t\): \[
+\text{E}\left[y_{t}^2\right]
+\]
+
+Using the moving average representation and the independence of the
+shocks, cross terms vanish, leaving \[
+\text{E}\left[y_{t}^2\right]
+=\rho^{2t} \text{E}\left[y_0^2\right]+\sum_{s=0}^{t-1}\rho^{2s}\text{E}\left[e_{t-s}^2\right]
+\]
+
+Assuming stationarity, we set
+\(\text{E}[y_0^2] = \frac{\sigma^2}{1-\rho^2}\) and
+\(\text{E}[e_t^2] = \sigma^2\), giving \[
+=\rho^{2t} \frac{\sigma^2}{1-\rho^2}+\sigma^2\sum_{s=0}^{t-1}\rho^{2s}
+\]
+
+The geometric sum simplifies to \[
+\sum_{s=0}^{t-1}\rho^{2s} = \frac{1 - \rho^{2t}}{1 - \rho^2}
+\]
+
+Substituting this in, the dependence on \(t\) cancels out, yielding \[
+\text{E}\left[y_t^2\right] = \frac{\sigma^2}{1-\rho^2}
+\]
+
+This shows that the variance of \(y_t\) is constant over time under
+stationarity. This result will be used repeatedly when evaluating
+expectations involving the denominator \(\sum y_{t-1}^2\).
+
+    \section{Taylor expansion framework}\label{taylor-expansion-framework}
+
+From the previous decomposition, we write the estimation error as \[
+\hat\beta_{1}-\rho = \frac{(T-1)^{-1}\sum_{t=2}^{T} e_t y_{t-1}}{(T-1)^{-1}\sum_{t=2}^{T} y_{t-1}^2} = \frac{A}{B}
+\]
+
+where we define the sample averages -
+\(A = (T-1)^{-1}\sum_{t=2}^{T} e_t y_{t-1}\) -
+\(B = (T-1)^{-1}\sum_{t=2}^{T} y_{t-1}^2\)
+
+The goal is to compute
+\(\text{E}[\hat\beta_1 - \rho] = \text{E}[A/B]\).\\
+The difficulty is that this is the expectation of a ratio of random
+variables, which does not simplify to the ratio of expectations.
+
+To handle this, we approximate the ratio using a Taylor expansion around
+the means of \(A\) and \(B\). Let \[
+a = \text{E}[A], \quad b = \text{E}[B]
+\]
+
+We expand the function \(f(A,B) = A/B\) around the point \((a,b)\) up to
+second order: \[
+\frac{A}{B}=\frac{a}{b}+\frac{1}{B}(A-a)-\frac{a}{b^2}(B-b)-\frac{1}{b^2}(A-a)(B-b)+\frac{a}{b^3}(B-b)^2+R_2
+\]
+
+This expansion expresses the ratio as: - a deterministic leading term
+\(\frac{a}{b}\) - linear corrections in \((A-a)\) and \((B-b)\) -
+second-order interaction terms - a remainder \(R_2\) capturing
+higher-order terms
+
+Taking expectations term by term, we obtain \[
+\begin{aligned}
+\text{E}\left[\frac{A}{B}\right]
+&=\frac{a}{b}
++\frac{1}{B}\text{E}\left[A-a\right]
+-\frac{a}{b^2}\text{E}\left[B-b\right] \\
+&\quad -\frac{1}{b^2}\text{E}\left[(A-a)(B-b)\right]
++\frac{a}{b^3}\text{E}\left[(B-b)^2\right]
++\text{E}\left[R_2\right]
+\end{aligned}
+\]
+
+Now we simplify each term: - \(\text{E}[A-a] = 0\) and
+\(\text{E}[B-b] = 0\) by definition -
+\(\text{E}[(A-a)(B-b)] = \text{Cov}(A,B)\) -
+\(\text{E}[(B-b)^2] = \text{Var}(B)\)
+
+Substituting these in gives \[
+\text{E}\left[\frac{A}{B}\right]
+=\frac{a}{b}
+-\frac{1}{b^2}\text{Cov}\left[A,B\right]
++\frac{a}{b^3}\text{Var}\left[B\right]
++\text{E}\left[R_2\right]
+\]
+
+Finally, rewriting everything in terms of expectations, \[
+\text{E}\left[\frac{A}{B}\right]
+=\frac{\text{E}[A]}{\text{E}[B]}
+-\frac{1}{\text{E}[B]^2}\text{Cov}\left[A,B\right]
++\frac{\text{E}[A]}{\text{E}[B]^3}\text{Var}\left[B\right]
++\text{E}\left[R_2\right]
+\]
+
+This expression is the central tool for deriving the Kendall bias. It
+shows that the bias arises from two key sources: - the covariance
+between numerator and denominator, \(\text{Cov}(A,B)\) - the variability
+of the denominator, \(\text{Var}(B)\)
+
+Even if \(\text{E}[A] = 0\), the estimator can still be biased due to
+these second-order terms. The remainder term \(\text{E}[R_2]\) is of
+smaller order and will typically vanish asymptotically, allowing us to
+focus on the leading bias contributions.
+
+    \section{Warm-up: No Constant case}\label{warm-up-no-constant-case}
+
+In this section, we compute the basic moments of \(A\) and \(B\) in the
+simpler case where there is no intercept in the model. This serves as a
+warm-up before tackling the full bias expression.
+
+Recall the definitions - \(A = (T-1)^{-1}\sum_{t=2}^{T} e_t y_{t-1}\) -
+\(B = (T-1)^{-1}\sum_{t=2}^{T} y_{t-1}^2\)
+
+Our goal is to compute \(\text{E}[A]\) and \(\text{E}[B]\), which will
+be used in the Taylor expansion.
+
+\subsection{Definitions}\label{definitions}
+
+We begin with the expectation of \(A\): \[
+\begin{aligned}
+\text{E}\left[A\right]
+&=\frac{1}{T-1}\sum_{t=2}^{T} \text{E}\left[e_t y_{t-1}\right]
+\end{aligned}
+\]
+
+Because \(e_t\) is independent of past values (in particular
+\(y_{t-1}\)), we can factor the expectation: \[
+\begin{aligned}
+&=\frac{1}{T-1}\sum_{t=2}^{T} \text{E}\left[e_t\right]\text{E}\left[y_{t-1}\right]
+\end{aligned}
+\]
+
+Since \(\text{E}[e_t]=0\) and (in the no-constant case)
+\(\text{E}[y_{t-1}]=0\), each term in the sum is zero, giving \[
+\text{E}\left[A\right]=0
+\]
+
+This is an important baseline result: on average, the numerator of the
+estimator is zero. As we will see, the bias does not come from
+\(\text{E}[A]\), but from higher-order interactions between \(A\) and
+\(B\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Next, we compute the expectation of \(B\): \[
+\begin{aligned}
+\text{E}\left[B\right]
+&=\frac{1}{T-1}\sum_{t=2}^{T} \text{E}\left[y_{t-1}^2\right]
+\end{aligned}
+\]
+
+From the background computations, we know that under stationarity \[
+\text{E}\left[y_{t}^2\right] = \frac{\sigma^2}{1-\rho^{2}}
+\]
+
+This does not depend on \(t\), so every term in the sum is identical: \[
+\begin{aligned}
+\text{E}\left[B\right]
+&=\frac{1}{T-1}\sum_{t=2}^{T} \frac{\sigma^2}{1-\rho^{2}}\\
+&=\frac{\sigma^2}{1-\rho^{2}}
+\end{aligned}
+\]
+
+Thus, the denominator converges to the unconditional variance of the
+AR(1) process.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+For completeness, we restate the calculation of \(\text{E}[y_t^2]\),
+which underlies the result above: \[
+\begin{aligned}
+\text{E}\left[y_{t}^2\right]
+&=\rho^{2t} \sigma_0+\sigma^2\frac{1-\rho^{2t}}{1-\rho^{2}}
+\end{aligned}
+\]
+
+Substituting the stationary initial variance
+\(\sigma_0 = \frac{\sigma^2}{1-\rho^2}\) gives \[
+\begin{aligned}
+&=\rho^{2t} \frac{\sigma^2}{1-\rho^{2}}+\sigma^2\frac{1-\rho^{2t}}{1-\rho^{2}}
+\end{aligned}
+\]
+
+Combining terms, the dependence on \(t\) cancels: \[
+\text{E}\left[y_{t}^2\right]
+=\frac{\sigma^2}{1-\rho^{2}}
+\]
+
+This confirms that the process has constant variance over time, which
+justifies replacing each term in \(\text{E}[B]\) with the same value.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+At this point, we have established: - \(\text{E}[A] = 0\) -
+\(\text{E}[B] = \frac{\sigma^2}{1-\rho^2}\)
+
+These results will simplify the Taylor expansion considerably, since
+many terms involving \(\text{E}[A]\) will vanish.
+
+    \subsection{\texorpdfstring{Compute
+\(\text{Cov}[A,B]\)}{Compute \textbackslash text\{Cov\}{[}A,B{]}}}\label{compute-textcovab}
+
+We now compute the key second-order term driving the bias: \[
+\text{Cov}[A,B]
+\]
+
+Recall that - \(A = (T-1)^{-1}\sum_{t=2}^T e_t y_{t-1}\) -
+\(B = (T-1)^{-1}\sum_{t=2}^T y_{t-1}^2\)
+
+Since we have already shown that \(\text{E}[A] = 0\) and
+\(\text{E}[B] = (1-\rho^2)^{-1}\sigma^2\), the covariance simplifies to
+\[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}[(A-\text{E}[A])(B-\text{E}[B])]\\
+&=\text{E}\left[A\left(B-(1-\rho^2)^{-1}\sigma^2\right)\right]
+\end{aligned}
+\]
+
+Substituting the definitions of \(A\) and \(B\), we obtain \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\left[(T-1)^{-2}\sum_{t=2}^T\sum_{s=2}^T e_t y_{t-1}y_{s-1}^2\right]
+\end{aligned}
+\]
+
+This is a double sum over all pairs \((t,s)\). The next step is to
+determine which terms have nonzero expectation.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 1: Use independence to restrict the
+summation}\label{step-1-use-independence-to-restrict-the-summation}
+
+Because \(e_t\) is independent of all past shocks, terms where
+\(s \le t\) involve \(y_{s-1}\) that depends only on shocks up to time
+\(s-1 \le t-1\). These are independent of \(e_t\), so their expectation
+is zero.
+
+Thus, only terms with \(s > t\) contribute: \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\left[(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T e_t y_{t-1}y_{s-1}^2\right]
+\end{aligned}
+\]
+
+This is the key structural simplification: only ``forward-looking''
+interactions matter.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 2: Expand using the AR(1)
+representation}\label{step-2-expand-using-the-ar1-representation}
+
+To evaluate the expectation, we express \(y_{t-1}\) and \(y_{s-1}\) in
+terms of shocks: \[
+y_{t-1}=\rho^{t-1}y_{0}+\sum_{r=0}^{t-2}\rho^r e_{t-1-r},
+\qquad
+y_{s-1}=\rho^{s-1}y_{0}+\sum_{q=0}^{s-2}\rho^q e_{s-1-q}
+\]
+
+Substituting these into \(e_t y_{t-1} y_{s-1}^2\) produces many terms
+involving products of \(y_0\) and various shocks.
+
+After expanding, we group terms by the number of shocks involved: \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\Bigg[
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T
+\rho^{t-1}\rho^{2(s-1)} y_0^3\, e_t \\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T\sum_{r=0}^{t-2}
+\rho^{r}\rho^{2(s-1)} y_0^2\, e_t e_{t-1-r} \\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T\sum_{p=0}^{s-2}
+2\rho^{t-1}\rho^{s-1}\rho^{p} y_0^2\, e_t e_{s-1-p} \\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T\sum_{r,q,p}
+\rho^{r}\rho^{q+p}\, e_t e_{t-1-r} e_{s-1-q} e_{s-1-p}
+\Bigg]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 3: Eliminate terms with zero
+expectation}\label{step-3-eliminate-terms-with-zero-expectation}
+
+Because all shocks have mean zero, any term involving an odd number of
+shocks has expectation zero.
+
+This immediately removes: - all terms involving \(y_0^3 e_t\) - all
+terms involving three shocks
+
+The only surviving contributions are those involving \textbf{even
+numbers of shocks}, giving: \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T\sum_{p=0}^{s-2}
+2\rho^{t-1}\rho^{s-1}\rho^{p}\,\text{E}[y_0^2 e_t e_{s-1-p}]\\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T\sum_{r=0}^{t-2}\sum_{q,p}
+\rho^{r}\rho^{q+p}\,\text{E}[e_t e_{t-1-r} e_{s-1-q} e_{s-1-p}]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 4: Use independence and index
+matching}\label{step-4-use-independence-and-index-matching}
+
+Now we evaluate expectations by matching indices: -
+\(\text{E}[e_t e_{s-1-p}] \neq 0\) only if \(t = s-1-p\) - fourth
+moments factor into products of second moments under independence
+
+Using these rules, the expression simplifies to \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T
+2\rho^{2s-3}(1-\rho^2)^{-1}\sigma^4\\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^T\sum_{s=t+1}^T\sum_{r=0}^{t-2}
+2\rho^{2r+2s-2t-1}\sigma^4
+\end{aligned}
+\]
+
+The first term comes from interactions involving \(y_0^2\), while the
+second comes from purely shock-based terms.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 5: Evaluate the geometric
+sum}\label{step-5-evaluate-the-geometric-sum}
+
+The inner sum over \(r\) is geometric: \[
+\begin{aligned}
+\sum_{r=0}^{t-2}\rho^{2r+2s-2t-1}
+=
+\rho^{2s-2t-1}\frac{1-\rho^{2(t-1)}}{1-\rho^2}
+\end{aligned}
+\]
+
+Substituting this back gives \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+2(T-1)^{-2}(1-\rho^2)^{-1}\sigma^4
+\left[
+\sum_{t=2}^T\sum_{s=t+1}^T\rho^{2s-3}
++
+\sum_{t=2}^T\sum_{s=t+1}^T\rho^{2s-2t-1}(1-\rho^{2(t-1)})
+\right]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 6: Final
+simplification}\label{step-6-final-simplification}
+
+After evaluating the remaining sums (again using geometric series), we
+obtain the closed form: \[
+\begin{aligned}
+\text{Cov}\left[A,B\right]
+&=
+\frac{2\sigma^4\left((T-1)(\rho^4-\rho^2)-\rho^{2T}\right)}
+{\rho (T-1)^2(1-\rho^2)^3}
+\end{aligned}
+\]
+
+For large \(T\), the term involving \(\rho^{2T}\) vanishes, giving the
+leading-order approximation: \[
+\text{Cov}\left[A,B\right]
+=\frac{2\sigma^4\left(\rho^4-\rho^2\right)}
+{\rho (T-1)(1-\rho^2)^3}+O(T^{-2})
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This result shows that \(\text{Cov}[A,B]\) is of order \(O(1/T)\).\\
+This is exactly the scale at which the Kendall bias appears.
+
+Importantly: - the covariance is \textbf{not zero}, even though
+\(\text{E}[A]=0\) - this nonzero covariance is the dominant source of
+bias in the estimator
+
+This term will feed directly into the Taylor expansion, producing the
+familiar finite-sample bias of the AR(1) OLS estimator.
+
+    \subsection{Complete setup}\label{complete-setup}
+
+We now combine all previous results to obtain the bias of the estimator.
+
+Recall the Taylor expansion for the expectation of the ratio: \[
+\text{E}\left[\frac{A}{B}\right]
+=\frac{\text{E}[A]}{\text{E}[B]}
+-\frac{1}{\text{E}[B]^2}\text{Cov}\left[A,B\right]
++\frac{\text{E}[A]}{\text{E}[B]^3}\text{Var}\left[B\right]
++\text{E}\left[R_2\right]
+\]
+
+From the warm-up calculations, we have: \[
+\begin{aligned}
+\text{E}\left[A\right] &= 0 \\
+\text{E}\left[B\right] &= \frac{\sigma^2}{1-\rho^{2}}
+\end{aligned}
+\]
+
+Substituting these into the expansion simplifies the expression
+considerably.
+
+First, the leading term vanishes: \[
+\frac{\text{E}[A]}{\text{E}[B]} = 0
+\]
+
+Similarly, the variance correction term disappears: \[
+\frac{\text{E}[A]}{\text{E}[B]^3}\text{Var}\left[B\right] = 0
+\]
+
+This leaves only the covariance term: \[
+\text{E}\left[\frac{A}{B}\right]
+=-\frac{1}{\text{E}[B]^2}\text{Cov}\left[A,B\right]
++\text{E}\left[R_2\right]
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Substituting known
+quantities}\label{substituting-known-quantities}
+
+We now plug in: - \(\text{E}[B] = \frac{\sigma^2}{1-\rho^2}\) - the
+previously derived expression for \(\text{Cov}(A,B)\)
+
+Because \(\text{E}[B]^2 = \frac{\sigma^4}{(1-\rho^2)^2}\), the scaling
+simplifies neatly when combined with \(\text{Cov}(A,B)\).
+
+Carrying out this substitution and simplifying yields: \[
+\text{E}\left[\frac{A}{B}\right]
+= -\frac{2\rho}{T-1} + O(T^{-2})
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Final result}\label{final-result}
+
+Recalling that \[
+\hat\beta_1 - \rho = \frac{A}{B},
+\] we obtain the bias of the estimator: \[
+\text{E}\left[\hat\beta_{1}\right]-\rho
+= -\frac{2\rho}{T-1}+O(T^{-2})
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This is the classical Kendall bias result for the AR(1) model without a
+constant.
+
+Key takeaways: - The bias is of order \(O(1/T)\), so it vanishes
+asymptotically - The bias is \textbf{negative when \(\rho > 0\)},
+meaning the estimator systematically underestimates persistence in
+finite samples - The magnitude of the bias increases with \(\rho\), so
+it is most severe for highly persistent processes
+
+Conceptually, the bias arises entirely from the covariance between the
+numerator and denominator in the OLS estimator. Even though the
+numerator has mean zero, its interaction with the random denominator
+produces a systematic distortion.
+
+This completes the derivation: we have shown how the ratio structure of
+the estimator, combined with dependence in the data, generates
+finite-sample bias.
+
+    \section{Full problem}\label{full-problem}
+
+We now consider the more general AR(1) model with an intercept: \[
+y_t = \alpha+\rho y_{t-1}+e_t
+\]
+
+In regression form, this becomes \[
+y_t = \beta_0+\beta_1 y_{t-1}+u_t
+\]
+
+where under the true model, \(\beta_0 = \alpha\), \(\beta_1 = \rho\),
+and \(u_t = e_t\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Why this case is
+different}\label{why-this-case-is-different}
+
+Unlike the no-constant case, the process now has a nonzero mean. In
+particular, under stationarity, \[
+\text{E}[y_t] = \frac{\alpha}{1-\rho}
+\]
+
+Because of this, OLS must estimate both an intercept and a slope. This
+changes the form of the estimator: instead of simple sums, everything is
+expressed in terms of \textbf{demeaned variables}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{OLS estimator with a
+constant}\label{ols-estimator-with-a-constant}
+
+The OLS estimator for \(\beta_1\) is \[
+\begin{aligned}
+\hat\beta_{1}
+&= \frac{\sum_{t=2}^{T} (y_t-\bar y_0)(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\end{aligned}
+\]
+
+where: - \(\bar y_0 = (T-1)^{-1}\sum_{t=2}^T y_t\) -
+\(\bar y_{-1} = (T-1)^{-1}\sum_{t=2}^T y_{t-1}\)
+
+These are the sample means of the dependent variable and the lagged
+regressor.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Substituting the true
+model}\label{substituting-the-true-model}
+
+We now substitute the data generating process into the numerator: \[
+\begin{aligned}
+\hat\beta_{1}
+&= \frac{\sum_{t=2}^{T} (\alpha+\rho y_{t-1}+e_t-\bar y_0)(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\end{aligned}
+\]
+
+Next, we expand \(\bar y_0\). Since \[
+\bar y_0 = \alpha + \rho \bar y_{-1} + \bar e_0,
+\] we can rewrite the numerator as \[
+\begin{aligned}
+(\alpha+\rho y_{t-1}+e_t-\alpha-\rho \bar y_{-1}-\bar e_0)
+\end{aligned}
+\]
+
+This gives \[
+\begin{aligned}
+\hat\beta_{1}
+&= \frac{\sum_{t=2}^{T} (\alpha+\rho y_{t-1}+e_t-\alpha-\rho \bar y_{-1}-\bar e_0)(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Simplification}\label{simplification}
+
+The constant terms cancel, leaving only deviations from the mean: \[
+\alpha - \alpha = 0
+\]
+
+We are left with \[
+\begin{aligned}
+\hat\beta_{1}
+&= \frac{\sum_{t=2}^{T} (\rho(y_{t-1}-\bar y_{-1}) + (e_t - \bar e_0))(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\end{aligned}
+\]
+
+Expanding the numerator: \[
+\begin{aligned}
+&= \frac{\rho \sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2
++ \sum_{t=2}^{T} (e_t - \bar e_0)(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\end{aligned}
+\]
+
+The first term simplifies directly, yielding \[
+\hat\beta_{1}
+= \rho+\frac{\sum_{t=2}^{T} (e_t - \bar e_0)(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\]
+
+Finally, using the fact that \(\sum (y_{t-1}-\bar y_{-1}) = 0\), the
+\(\bar e_0\) term drops out: \[
+\sum_{t=2}^T \bar e_0 (y_{t-1}-\bar y_{-1}) = 0
+\]
+
+This gives the clean decomposition \[
+\hat\beta_{1}
+= \rho+\frac{\sum_{t=2}^{T} e_t(y_{t-1}-\bar y_{-1})}
+{\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This expression is the direct analogue of the no-constant case, but with
+an important difference:
+
+\begin{itemize}
+\tightlist
+\item
+  In the no-constant case, the regressor is \(y_{t-1}\)
+\item
+  With a constant, the regressor becomes \((y_{t-1} - \bar y_{-1})\)
+\end{itemize}
+
+This centering introduces additional dependence through the sample mean
+\(\bar y_{-1}\), which itself depends on all observations.
+
+As a result: - the numerator and denominator become more complicated
+objects - additional covariance terms appear - the bias calculation
+becomes significantly more involved
+
+However, structurally, the problem is the same: we again have a ratio of
+two random quantities, and we will analyze it using the same Taylor
+expansion framework.
+
+    \section{Computations}\label{computations}
+
+We now translate the full problem with a constant into the same
+analytical framework used in the no-constant case.
+
+From the previous derivation, we have the decomposition \[
+\hat\beta_{1}-\rho
+= \frac{(T-1)^{-1}\sum_{t=2}^{T} e_t(y_{t-1}-\bar y_{-1})}
+{(T-1)^{-1}\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2}
+= \frac{A}{B}
+\]
+
+where we define \[
+A = (T-1)^{-1}\sum_{t=2}^{T} e_t(y_{t-1}-\bar y_{-1})
+\] \[
+B = (T-1)^{-1}\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Strategy}\label{strategy}
+
+Our objective is to compute \[
+\text{E}[\hat\beta_1 - \rho] = \text{E}\left[\frac{A}{B}\right]
+\]
+
+As before, this is the expectation of a ratio of random variables. We
+handle this using the same Taylor expansion approximation: \[
+\text{E}\left[\frac{A}{B}\right]
+=\frac{\text{E}[A]}{\text{E}[B]}
+-\frac{1}{\text{E}[B]^2}\text{Cov}\left[A,B\right]
++\frac{\text{E}[A]}{\text{E}[B]^3}\text{Var}\left[B\right]
++\text{E}\left[R_2\right]
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{What changes relative to the no-constant
+case}\label{what-changes-relative-to-the-no-constant-case}
+
+At first glance, this looks identical to the earlier setup. However, the
+presence of the sample mean \(\bar y_{-1}\) fundamentally changes the
+structure of both \(A\) and \(B\):
+
+\begin{itemize}
+\tightlist
+\item
+  \(A\) now involves \(y_{t-1} - \bar y_{-1}\) instead of \(y_{t-1}\)
+\item
+  \(B\) is the sample variance of \(y_{t-1}\) rather than a simple
+  second moment
+\item
+  \(\bar y_{-1}\) depends on the entire sample, introducing global
+  dependence across all terms
+\end{itemize}
+
+This has several important consequences:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Loss of simple independence structure}\\
+  In the no-constant case, many terms vanished because \(e_t\) was
+  independent of past values.\\
+  Here, \(\bar y_{-1}\) depends on all observations, including those
+  involving \(e_t\), so fewer terms drop out.
+\item
+  \textbf{Additional covariance channels}\\
+  The sample mean introduces new interactions between observations at
+  different time indices, which will appear in \(\text{Cov}(A,B)\).
+\item
+  \textbf{More complex algebra, same principle}\\
+  Despite the added complexity, the overall strategy remains unchanged:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    compute \(\text{E}[A]\)
+  \item
+    compute \(\text{E}[B]\)
+  \item
+    compute \(\text{Cov}(A,B)\)
+  \item
+    plug into the Taylor expansion
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Roadmap}\label{roadmap}
+
+The remainder of the derivation will proceed exactly as before, but with
+more involved calculations:
+
+\begin{itemize}
+\tightlist
+\item
+  First, we compute \(\text{E}[A]\) and \(\text{E}[B]\), paying careful
+  attention to the role of \(\bar y_{-1}\)
+\item
+  Next, we evaluate \(\text{Cov}(A,B)\), where most of the additional
+  complexity arises
+\item
+  Finally, we combine these pieces to obtain the bias
+\end{itemize}
+
+Conceptually, nothing new is happening---the bias still comes from the
+interaction between the numerator and denominator---but the presence of
+the sample mean makes those interactions much richer.
+
+    \subsection{\texorpdfstring{Compute
+\(\text{E}[A]\)}{Compute \textbackslash text\{E\}{[}A{]}}}\label{compute-textea}
+
+We now compute the expectation of \[
+A = (T-1)^{-1}\sum_{t=2}^{T} e_t(y_{t-1}-\bar y_{-1})
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 1: Expand the
+definition}\label{step-1-expand-the-definition}
+
+Taking expectations, \[
+\begin{aligned}
+\text{E}[A]
+&= (T-1)^{-1}\sum_{t=2}^{T} \text{E}\left[e_t(y_{t-1}-\bar y_{-1})\right]\\
+&= (T-1)^{-1}\sum_{t=2}^{T} \left(\text{E}[e_t y_{t-1}] - \text{E}[e_t \bar y_{-1}]\right)
+\end{aligned}
+\]
+
+In the no-constant case, both terms would be zero. However, the presence
+of \(\bar y_{-1}\) changes things.
+
+\begin{itemize}
+\item
+  The first term is still zero: \[
+  \text{E}[e_t y_{t-1}] = 0
+  \] because \(e_t\) is independent of past values.
+\item
+  The second term is \textbf{not zero}, because \(\bar y_{-1}\) contains
+  future observations relative to \(t\), which depend on \(e_t\).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 2: Expand the sample
+mean}\label{step-2-expand-the-sample-mean}
+
+Recall that \[
+\bar y_{-1} = (T-1)^{-1}\sum_{s=2}^{T} y_{s-1}
+\]
+
+Substituting this in, \[
+\begin{aligned}
+\text{E}[A]
+&= -(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=2}^{T} \text{E}[e_t y_{s-1}]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 3: Identify nonzero
+terms}\label{step-3-identify-nonzero-terms}
+
+We now analyze when \(\text{E}[e_t y_{s-1}]\) is nonzero.
+
+\begin{itemize}
+\tightlist
+\item
+  If \(s \le t\), then \(y_{s-1}\) depends only on shocks up to time
+  \(s-1 \le t-1\), which are independent of \(e_t\), so the expectation
+  is zero.
+\item
+  If \(s > t\), then \(y_{s-1}\) contains \(e_t\) in its expansion, so
+  the expectation is nonzero.
+\end{itemize}
+
+Thus, we restrict the sum to \(s > t\): \[
+\begin{aligned}
+\text{E}[A]
+&= -\frac{1}{(T-1)^2}\sum_{t=2}^{T}\sum_{s=t+1}^{T} \text{E}[e_t y_{s-1}]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 4: Use the AR(1)
+representation}\label{step-4-use-the-ar1-representation}
+
+Using the moving average form, \[
+y_{s-1} = \sum_{q=0}^{s-2}\rho^q e_{s-1-q} + \rho^{s-1}y_0
+\]
+
+Only the shock terms contribute, since \(\text{E}[e_t y_0] = 0\).
+Substituting, \[
+\begin{aligned}
+\text{E}[A]
+&= -\frac{1}{(T-1)^2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}
+\text{E}\left[e_t \sum_{q=0}^{s-2}\rho^q e_{s-1-q}\right]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 5: Match indices}\label{step-5-match-indices}
+
+The only nonzero contributions occur when the shocks match: \[
+e_t \cdot e_{s-1-q} \neq 0 \quad \text{only if} \quad t = s-1-q
+\]
+
+This implies \(q = s-1-t\), so the corresponding term is
+\(\rho^{s-1-t}\).
+
+Using \(\text{E}[e_t^2] = \sigma^2\), we obtain \[
+\begin{aligned}
+\text{E}[A]
+&= -\frac{\sigma^2}{(T-1)^2}\sum_{t=2}^{T}\sum_{s=t+1}^{T} \rho^{s-1-t}
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 6: Evaluate the geometric
+sum}\label{step-6-evaluate-the-geometric-sum}
+
+For fixed \(t\), the inner sum is geometric: \[
+\sum_{s=t+1}^{T} \rho^{s-1-t}
+= \sum_{k=0}^{T-t-1} \rho^k
+= \frac{1-\rho^{T-t}}{1-\rho}
+\]
+
+Substituting, \[
+\begin{aligned}
+\text{E}[A]
+&= -\frac{\sigma^2}{(T-1)^2}\sum_{t=2}^{T} \frac{1-\rho^{T-t}}{1-\rho}
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 7: Final
+simplification}\label{step-7-final-simplification}
+
+Summing over \(t\) gives \[
+\begin{aligned}
+\text{E}[A]
+&= -\frac{\sigma^2}{(T-1)^2(1-\rho)}
+\left[(T-1) - \frac{1-\rho^{T-1}}{1-\rho}\right]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This is the first major departure from the no-constant case:
+
+\begin{itemize}
+\tightlist
+\item
+  Previously, \(\text{E}[A] = 0\)
+\item
+  Here, \(\text{E}[A] \neq 0\)
+\end{itemize}
+
+The reason is entirely due to the sample mean \(\bar y_{-1}\): - it
+introduces dependence between \(e_t\) and future observations - this
+creates nonzero contributions when \(s > t\)
+
+Importantly, \(\text{E}[A]\) is of order \(O(1/T)\), which means it
+contributes directly to the leading-order bias.
+
+This is one of the key sources of the additional bias introduced by
+estimating the intercept.
+
+    \subsection{\texorpdfstring{Compute
+\(\text{E}[B]\)}{Compute \textbackslash text\{E\}{[}B{]}}}\label{compute-texteb}
+
+We now compute the expectation of \[
+B = (T-1)^{-1}\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2
+\]
+
+This quantity is the \textbf{sample variance} of \(y_{t-1}\). Unlike the
+no-constant case, this is no longer just a second moment---it includes a
+correction for the sample mean.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 1: Expand the
+square}\label{step-1-expand-the-square}
+
+Taking expectations, \[
+\begin{aligned}
+\text{E}[B]
+&= (T-1)^{-1}\sum_{t=2}^{T} \text{E}\big[(y_{t-1}-\bar y_{-1})^2\big]\\
+&= (T-1)^{-1}\sum_{t=2}^{T} \left(\text{E}[y_{t-1}^2] - 2\text{E}[y_{t-1}\bar y_{-1}] + \text{E}[\bar y_{-1}^2]\right)
+\end{aligned}
+\]
+
+At this point, everything hinges on understanding how the sample mean
+interacts with individual observations.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 2: Use stationarity and
+symmetry}\label{step-2-use-stationarity-and-symmetry}
+
+Because the process is stationary: - \(\text{E}[y_{t-1}^2] = \gamma_0\)
+- \(\text{E}[y_{t-1}y_{s-1}] = \gamma_{|t-s|}\)
+
+Also, by symmetry, each \(y_{t-1}\) has the same relationship with
+\(\bar y_{-1}\).
+
+This leads to a key simplification: \[
+\begin{aligned}
+\text{E}[B]
+&= \gamma_0 - \text{E}[\bar y_{-1}^2]
+\end{aligned}
+\]
+
+This is an important result:\\
+the expected sample variance equals the true variance minus the variance
+of the sample mean.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{Step 3: Compute
+\(\text{E}[\bar y_{-1}^2]\)}{Step 3: Compute \textbackslash text\{E\}{[}\textbackslash bar y\_\{-1\}\^{}2{]}}}\label{step-3-compute-textebar-y_-12}
+
+Recall that \[
+\bar y_{-1} = (T-1)^{-1}\sum_{t=2}^{T} y_{t-1}
+\]
+
+Squaring and taking expectations, \[
+\begin{aligned}
+\text{E}[\bar y_{-1}^2]
+&= (T-1)^{-2}\sum_{t=2}^{T}\sum_{s=2}^{T} \text{E}[y_{t-1}y_{s-1}]
+\end{aligned}
+\]
+
+Using stationarity, \[
+\begin{aligned}
+&= (T-1)^{-2}\sum_{t=2}^{T}\sum_{s=2}^{T} \gamma_{|t-s|}
+\end{aligned}
+\]
+
+We now reorganize the double sum by lag \(h = |t-s|\): \[
+\begin{aligned}
+&= (T-1)^{-2}\left[(T-1)\gamma_0 + 2\sum_{h=1}^{T-2}(T-1-h)\gamma_h\right]
+\end{aligned}
+\]
+
+This expression reflects: - \((T-1)\) terms with lag 0 - \((T-1-h)\)
+pairs at each lag \(h\), counted twice for symmetry
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 4: Substitute AR(1)
+autocovariances}\label{step-4-substitute-ar1-autocovariances}
+
+For the AR(1) process, \[
+\gamma_h = \frac{\sigma^2}{1-\rho^2}\rho^h
+\]
+
+Substituting into \(\text{E}[B]\) gives \[
+\text{E}[B]
+=
+\frac{\sigma^2}{1-\rho^2}
+-
+(T-1)^{-2}
+\left[
+(T-1)\frac{\sigma^2}{1-\rho^2}
++
+2\sum_{h=1}^{T-2}(T-1-h)\frac{\sigma^2}{1-\rho^2}\rho^h
+\right]
+\]
+
+Factoring out \(\frac{\sigma^2}{1-\rho^2}\): \[
+\text{E}[B]
+=
+\frac{\sigma^2}{1-\rho^2}
+\left[
+1
+-
+\frac{1}{(T-1)^2}
+\left(
+(T-1)
++
+2\sum_{h=1}^{T-2}(T-1-h)\rho^h
+\right)
+\right]
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 5: Evaluate the weighted geometric
+sum}\label{step-5-evaluate-the-weighted-geometric-sum}
+
+The remaining sum is a weighted geometric series: \[
+\sum_{h=1}^{T-2}(T-1-h)\rho^h
+\]
+
+Evaluating this yields \[
+\begin{aligned}
+&=
+(T-1)\frac{\rho(1-\rho^{T-2})}{1-\rho}
+-
+\frac{\rho\big(1-(T-1)\rho^{T-2}+(T-2)\rho^{T-1}\big)}{(1-\rho)^2}
+\end{aligned}
+\]
+
+Substituting back, \[
+\begin{aligned}
+\text{E}[B]
+&=
+\frac{\sigma^2}{1-\rho^2}
+-
+\frac{\sigma^2}{(T-1)^2(1-\rho^2)}
+\Bigg[
+(T-1)
++
+2\Bigg(
+(T-1)\frac{\rho(1-\rho^{T-2})}{1-\rho}\\
+&\qquad\qquad\qquad
+-
+\frac{\rho\big(1-(T-1)\rho^{T-2}+(T-2)\rho^{T-1}\big)}{(1-\rho)^2}
+\Bigg)
+\Bigg]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 6: Asymptotic
+simplification}\label{step-6-asymptotic-simplification}
+
+Although the exact expression is complex, its asymptotic behavior is
+simple. The correction term is of order \(O(1/T)\), so \[
+\text{E}[B] = \frac{\sigma^2}{1-\rho^2} + O\!\left(T^{-1}\right)
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This result shows that:
+
+\begin{itemize}
+\tightlist
+\item
+  The expected denominator is close to the unconditional variance
+  \(\gamma_0\)
+\item
+  The correction comes from estimating the mean using the same data
+\item
+  This correction is small (order \(1/T\)), but it plays a role in the
+  finite-sample bias
+\end{itemize}
+
+Conceptually: - In the no-constant case, \(B\) directly estimates
+\(\gamma_0\) - With a constant, \(B\) estimates \(\gamma_0\)
+\textbf{minus the variability of the sample mean}
+
+This is another way the intercept complicates the problem, introducing
+additional small-sample effects that must be accounted for in the bias
+calculation.
+
+    \subsection{\texorpdfstring{Compute \(\text{Var}[B]\) (nuisance
+term)}{Compute \textbackslash text\{Var\}{[}B{]} (nuisance term)}}\label{compute-textvarb-nuisance-term}
+
+We now compute \(\text{Var}(B)\), which appears in the Taylor
+expansion.\\
+This term will ultimately be of smaller importance, but we include it
+for completeness.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{Step 1: Rewrite
+\(B\)}{Step 1: Rewrite B}}\label{step-1-rewrite-b}
+
+Let \[
+\text{Let } n=T-1,\qquad x_t=y_{t-1}
+\]
+
+Then \[
+\begin{aligned}
+B
+&= n^{-1}\sum_{t=1}^n (x_t-\bar x)^2\\
+&= n^{-1}\sum_{t=1}^n x_t^2-\bar x^2
+\end{aligned}
+\]
+
+This decomposition separates \(B\) into: - the average of squared
+observations - minus the square of the sample mean
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 2: Identify leading-order
+behavior}\label{step-2-identify-leading-order-behavior}
+
+We now analyze the variance: \[
+\text{Var}(B)
+\]
+
+The key observation is that \(\bar x = O_p(n^{-1/2})\), so \[
+\bar x^2 = O_p(n^{-1})
+\]
+
+This implies \[
+\text{Var}(\bar x^2) = O(n^{-2})
+\]
+
+which is negligible relative to the \(O(n^{-1})\) scale of the bias.
+Therefore, to leading order, \[
+\text{Var}(B)=\text{Var}\!\left(n^{-1}\sum_{t=1}^n x_t^2\right)+o\!\left(\frac{1}{n}\right)
+\]
+
+So we can focus on the variance of the average of \(x_t^2\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 3: Expand the
+variance}\label{step-3-expand-the-variance}
+
+Using the standard formula for the variance of a sum, \[
+\begin{aligned}
+\text{Var}\!\left(n^{-1}\sum_{t=1}^n x_t^2\right)
+&= n^{-2}\sum_{t=1}^n\sum_{s=1}^n \text{Cov}(x_t^2,x_s^2)
+\end{aligned}
+\]
+
+By stationarity, this depends only on the lag \(h = |t-s|\), giving \[
+\begin{aligned}
+&= n^{-2}\left[n\,\text{Var}(x_1^2)+2\sum_{h=1}^{n-1}(n-h)\text{Cov}(x_1^2,x_{1+h}^2)\right]
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 4: Use Gaussian
+structure}\label{step-4-use-gaussian-structure}
+
+For a Gaussian stationary AR(1), \[
+\gamma_h=\text{Cov}(x_t,x_{t+h})=\frac{\sigma^2}{1-\rho^2}\rho^h
+\]
+
+To compute \(\text{Cov}(x_t^2,x_{t+h}^2)\), we use Isserlis' formula
+(moment factoring for Gaussian variables): \[
+\text{Cov}(x_t^2,x_{t+h}^2)=2\gamma_h^2
+\]
+
+This is a major simplification: fourth moments reduce to functions of
+second moments.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 5: Substitute and
+simplify}\label{step-5-substitute-and-simplify}
+
+Substituting into the variance expression, \[
+\begin{aligned}
+\text{Var}(B)
+&= 2n^{-2}\left[n\gamma_0^2+2\sum_{h=1}^{n-1}(n-h)\gamma_h^2\right]+o\!\left(\frac{1}{n}\right)
+\end{aligned}
+\]
+
+Using \(\gamma_h = \gamma_0 \rho^h\), we get \[
+\begin{aligned}
+\text{Var}(B)
+&= 2\gamma_0^2 n^{-2}\left[n+2\sum_{h=1}^{n-1}(n-h)\rho^{2h}\right]+o\!\left(\frac{1}{n}\right)
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 6: Evaluate the weighted geometric
+sum}\label{step-6-evaluate-the-weighted-geometric-sum}
+
+The remaining sum is \[
+\sum_{h=1}^{n-1}(n-h)\rho^{2h}
+\]
+
+which evaluates to \[
+\begin{aligned}
+&=
+n\frac{\rho^2(1-\rho^{2(n-1)})}{1-\rho^2}
+-
+\frac{\rho^2\bigl(1-n\rho^{2n-2}+(n-1)\rho^{2n}\bigr)}{(1-\rho^2)^2}
+\end{aligned}
+\]
+
+Substituting this back yields the full expression: \[
+\begin{aligned}
+\text{Var}(B)
+&=
+\frac{2\gamma_0^2}{n^2}
+\left[
+n
++
+2n\frac{\rho^2(1-\rho^{2(n-1)})}{1-\rho^2}
+-
+2\frac{\rho^2\bigl(1-n\rho^{2n-2}+(n-1)\rho^{2n}\bigr)}{(1-\rho^2)^2}
+\right]
++o\!\left(\frac{1}{n}\right)
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 7: Leading-order
+behavior}\label{step-7-leading-order-behavior}
+
+Using \(\gamma_0 = \frac{\sigma^2}{1-\rho^2}\) and simplifying, we
+obtain \[
+\text{Var}(B)
+=
+\frac{2\sigma^4(1+\rho^2)}{n(1-\rho^2)^3}
++O\!\left(n^{-2}\right)
+\]
+
+Returning to \(T\), \[
+\text{Var}(B)
+=
+\frac{2\sigma^4(1+\rho^2)}{(T-1)(1-\rho^2)^3}
++O\!\left(T^{-2}\right)
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This term is labeled a \emph{nuisance term} because:
+
+\begin{itemize}
+\tightlist
+\item
+  It is multiplied by \(\text{E}[A]\) in the Taylor expansion
+\item
+  Since \(\text{E}[A] = O(1/T)\) and \(\text{Var}(B) = O(1/T)\), their
+  product is \(O(1/T^2)\)
+\item
+  Therefore, it does \textbf{not} contribute to the leading-order bias
+\end{itemize}
+
+Conceptually: - \(\text{Var}(B)\) measures how much the denominator
+fluctuates - But these fluctuations only matter at second order
+
+So while this calculation is technically involved, its role in the final
+result is limited: it confirms that denominator variability does not
+affect the leading \(O(1/T)\) bias.
+
+    \subsection{\texorpdfstring{Compute
+\(\text{Cov}[A,B]\)}{Compute \textbackslash text\{Cov\}{[}A,B{]}}}\label{compute-textcovab}
+
+We now compute the covariance term \[
+\text{Cov}[A,B]
+\] for the full problem with a constant.
+
+Recall the definitions \[
+\begin{aligned}
+A &= (T-1)^{-1}\sum_{t=2}^{T} e_t(y_{t-1}-\bar y_{-1}),\\
+B &= (T-1)^{-1}\sum_{t=2}^{T} (y_{t-1}-\bar y_{-1})^2.
+\end{aligned}
+\]
+
+This is the most complicated part of the derivation. Conceptually,
+however, it is doing the same job as before: it measures how the random
+numerator and random denominator move together.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 1: Start from the
+definition}\label{step-1-start-from-the-definition}
+
+By definition, \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\big[(A-\text{E}[A])(B-\text{E}[B])\big]
+\end{aligned}
+\]
+
+Using the fact that, to leading order, \[
+\text{E}[B] = \frac{\sigma^2}{1-\rho^2} + O(T^{-1}),
+\] we write \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\left[A\left(B-\frac{\sigma^2}{1-\rho^2}\right)\right]
+\end{aligned}
+\]
+
+Expanding the product gives \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\left[(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=2}^{T} e_t y_{t-1}y_{s-1}^2\right].
+\end{aligned}
+\]
+
+At this stage, the expression is formally the same as in the no-constant
+case. The difference is that in the full problem this covariance is no
+longer the only contributor to the bias, because now
+\(\text{E}[A] \neq 0\) as well.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 2: Restrict to nonzero
+terms}\label{step-2-restrict-to-nonzero-terms}
+
+As before, only terms with \(s>t\) contribute.
+
+The reason is that if \(s \le t\), then \(y_{s-1}\) depends only on
+shocks dated no later than \(t-1\), so it is independent of \(e_t\).
+Hence those terms have zero expectation.
+
+Therefore, \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=\text{E}\left[(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T} e_t y_{t-1}y_{s-1}^2\right].
+\end{aligned}
+\]
+
+This is the same forward-dependence argument used in the warm-up
+calculation.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 3: Substitute the AR(1)
+representation}\label{step-3-substitute-the-ar1-representation}
+
+We now write both \(y_{t-1}\) and \(y_{s-1}\) in moving-average form: \[
+y_{t-1}=\rho^{t-1}y_0+\sum_{r=0}^{t-2}\rho^r e_{t-1-r},
+\qquad
+y_{s-1}=\rho^{s-1}y_0+\sum_{q=0}^{s-2}\rho^q e_{s-1-q}.
+\]
+
+Substituting these expansions into \[
+e_t y_{t-1} y_{s-1}^2
+\] produces a large number of terms. Most of them vanish after taking
+expectations, because they involve odd products of mean-zero shocks.
+
+After expanding and discarding all odd-moment terms, only two types of
+contributions remain:
+
+\[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{p=0}^{s-2}
+2\rho^{t-1}\rho^{s-1}\rho^p\,\text{E}[y_0^2 e_t e_{s-1-p}]\\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{r=0}^{t-2}\sum_{q=0}^{s-2}\sum_{p=0}^{s-2}
+\rho^r\rho^{q+p}\,\text{E}[e_t e_{t-1-r}e_{s-1-q}e_{s-1-p}].
+\end{aligned}
+\]
+
+So the surviving terms are: - one term involving \(y_0^2\) and two
+shocks - one term involving four shocks
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 4: Evaluate the first surviving
+term}\label{step-4-evaluate-the-first-surviving-term}
+
+Consider first \[
+\begin{aligned}
+&(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{p=0}^{s-2}
+2\rho^{t-1}\rho^{s-1}\rho^p\,\text{E}[y_0^2 e_t e_{s-1-p}]
+\end{aligned}
+\]
+
+The expectation is nonzero only when the shocks match: \[
+s-1-p=t
+\qquad\Longrightarrow\qquad
+p=s-1-t.
+\]
+
+Substituting this matching index, we obtain \[
+\begin{aligned}
+&(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}
+2\rho^{t-1}\rho^{s-1}\rho^{s-1-t}\,\text{E}[y_0^2]\sigma^2
+\end{aligned}
+\]
+
+Using stationarity, \[
+\text{E}[y_0^2]=\frac{\sigma^2}{1-\rho^2},
+\] so this becomes \[
+\begin{aligned}
+&=
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}
+2\rho^{2s-3}(1-\rho^2)^{-1}\sigma^4.
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 5: Evaluate the four-shock
+term}\label{step-5-evaluate-the-four-shock-term}
+
+Now consider \[
+\begin{aligned}
+&(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{r=0}^{t-2}\sum_{q=0}^{s-2}\sum_{p=0}^{s-2}
+\rho^r\rho^{q+p}\,\text{E}[e_t e_{t-1-r}e_{s-1-q}e_{s-1-p}].
+\end{aligned}
+\]
+
+The expectation is nonzero only when the four shocks can be paired into
+matching indices. There are two such nonzero pairings, which is why a
+factor of 2 appears.
+
+After matching indices, this reduces to \[
+\begin{aligned}
+&=
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{r=0}^{t-2}
+2\rho^r\rho^{s-1-t}\rho^{s-t+r}\sigma^4
+\end{aligned}
+\]
+
+Combining exponents yields \[
+\begin{aligned}
+&=
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{r=0}^{t-2}
+2\rho^{2r+2s-2t-1}\sigma^4.
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 6: Combine the two
+pieces}\label{step-6-combine-the-two-pieces}
+
+Putting the two surviving terms together gives \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}
+2\rho^{2s-3}(1-\rho^2)^{-1}\sigma^4\\
+&\quad+
+(T-1)^{-2}\sum_{t=2}^{T}\sum_{s=t+1}^{T}\sum_{r=0}^{t-2}
+2\rho^{2r+2s-2t-1}\sigma^4.
+\end{aligned}
+\]
+
+The first term is already in usable form. The second still contains an
+inner geometric sum.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 7: Evaluate the inner geometric
+sum}\label{step-7-evaluate-the-inner-geometric-sum}
+
+For the second term, \[
+\begin{aligned}
+\sum_{r=0}^{t-2}\rho^{2r+2s-2t-1}
+&=
+\rho^{2s-2t-1}\sum_{r=0}^{t-2}\rho^{2r}\\
+&=
+\rho^{2s-2t-1}\frac{1-\rho^{2(t-1)}}{1-\rho^2}.
+\end{aligned}
+\]
+
+Substituting this back yields \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+2(T-1)^{-2}(1-\rho^2)^{-1}\sigma^4
+\left[
+\sum_{t=2}^{T}\sum_{s=t+1}^{T}\rho^{2s-3}
++
+\sum_{t=2}^{T}\sum_{s=t+1}^{T}\rho^{2s-2t-1}\left(1-\rho^{2(t-1)}\right)
+\right].
+\end{aligned}
+\]
+
+At this point, everything has been reduced to geometric series.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Step 8: Closed form and
+asymptotics}\label{step-8-closed-form-and-asymptotics}
+
+Evaluating the remaining sums gives the exact closed form \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+\frac{2\sigma^4\left(T\rho^4-T\rho^2-\rho^4+2\rho^2-\rho^{2T}\right)}
+{\rho (T-1)^2(\rho-1)^3(\rho+1)^3}\\
+&=
+-\frac{2\sigma^4\left(T\rho^4-T\rho^2-\rho^4+2\rho^2-\rho^{2T}\right)}
+{\rho (T-1)^2(1-\rho^2)^3}.
+\end{aligned}
+\]
+
+Taking the leading term as \(T\to\infty\), \[
+\begin{aligned}
+\text{Cov}[A,B]
+&=
+\frac{2\rho\,\sigma^4}{(T-1)(1-\rho^2)^2}
++O\left(T^{-2}\right).
+\end{aligned}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+This shows that \(\text{Cov}[A,B]\) remains of order \(O(1/T)\) in the
+full problem.
+
+So, just as in the no-constant case: - the numerator and denominator are
+not independent - their covariance contributes directly to the
+finite-sample bias - the leading contribution is again at order \(1/T\)
+
+The difference now is that this covariance term must be combined with
+the nonzero value of \(\text{E}[A]\). In the no-constant case,
+\(\text{E}[A]=0\), so covariance alone drove the bias. Here, both
+effects matter.
+
+    \section{Assemble the bias}\label{assemble-the-bias}
+
+\[
+\begin{aligned}
+\text{E}\left[\frac{A}{B}\right]
+&=\frac{\text{E}[A]}{\text{E}[B]}
+-\frac{1}{\text{E}[B]^2}\text{Cov}\left[A,B\right]
++\frac{\text{E}[A]}{\text{E}[B]^3}\text{Var}\left[B\right]
++\text{E}\left[R_2\right]\\[6pt]
+&=
+\frac{
+-\frac{\sigma^2}{(T-1)^2(1-\rho)}
+\left[(T-1) - \frac{1-\rho^{T-1}}{1-\rho}\right]
+}{
+\frac{\sigma^2}{1-\rho^2}
+}\\
+&\quad
+-\frac{1}{\left[\frac{\sigma^2}{1-\rho^2}\right]^2}
+\cdot
+\frac{2\rho\,\sigma^4}{(T-1)(1-\rho^2)^2}\\
+&\quad
++\frac{
+-\frac{\sigma^2}{(T-1)^2(1-\rho)}
+\left[(T-1) - \frac{1-\rho^{T-1}}{1-\rho}\right]
+}{
+\left[\frac{\sigma^2}{1-\rho^2}\right]^3
+}
+\cdot
+\frac{2\sigma^4(1+\rho^2)}{(T-1)(1-\rho^2)^3}
++O\!\left(T^{-2}\right)\\[6pt]
+&=-\frac{1+\rho}{T-1}-\frac{2\rho}{T-1}
++O\!\left(T^{-2}\right)+O\!\left(T^{-2}\right)\\
+&=-\frac{1+3\rho}{T-1}+O\!\left(T^{-2}\right)
+\end{aligned}
+\]
+
+    \section{Key insights}\label{key-insights}
+
+We now summarize the main results and explain where the bias comes from.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. Final bias formulas}\label{final-bias-formulas}
+
+For the AR(1) model without a constant: \[
+\text{E}[\hat\beta_1] - \rho
+= -\frac{2\rho}{T-1} + O(T^{-2})
+\]
+
+For the AR(1) model with a constant: \[
+\text{E}[\hat\beta_1] - \rho
+= -\frac{1+3\rho}{T-1} + O(T^{-2})
+\]
+
+Both biases are of order \(O(1/T)\) and vanish asymptotically, but they
+differ in magnitude due to the presence of the intercept.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. Where the bias comes
+from}\label{where-the-bias-comes-from}
+
+In both cases, the estimator can be written as \[
+\hat\beta_1 - \rho = \frac{A}{B}
+\]
+
+The key object is therefore \[
+\text{E}\!\left[\frac{A}{B}\right]
+\]
+
+Using the Taylor expansion, \[
+\text{E}\!\left[\frac{A}{B}\right]
+=
+\frac{\text{E}[A]}{\text{E}[B]}
+-\frac{1}{\text{E}[B]^2}\text{Cov}(A,B)
++\frac{\text{E}[A]}{\text{E}[B]^3}\text{Var}(B)
++O(T^{-2})
+\]
+
+This decomposition shows that bias can come from three sources: - a
+nonzero numerator mean \(\text{E}[A]\) - dependence between numerator
+and denominator \(\text{Cov}(A,B)\) - variability of the denominator
+\(\text{Var}(B)\)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. No-constant case: bias from covariance
+only}\label{no-constant-case-bias-from-covariance-only}
+
+In the no-constant case, \[
+\text{E}[A] = 0
+\]
+
+so the bias reduces to \[
+\text{E}[\hat\beta_1 - \rho]
+=
+-\frac{1}{\text{E}[B]^2}\text{Cov}(A,B)
++O(T^{-2})
+\]
+
+Thus, the bias is driven entirely by the interaction between numerator
+and denominator.
+
+\textbf{Interpretation:}\\
+Even though \(e_t\) is uncorrelated with \(y_{t-1}\) at each point in
+time, the ratio structure introduces dependence between the sample
+covariance (numerator) and sample variance (denominator).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. With constant: two sources of
+bias}\label{with-constant-two-sources-of-bias}
+
+With a constant, a new effect appears: \[
+\text{E}[A] \neq 0
+\]
+
+so the leading terms become \[
+\text{E}[\hat\beta_1 - \rho]
+=
+\frac{\text{E}[A]}{\text{E}[B]}
+-\frac{1}{\text{E}[B]^2}\text{Cov}(A,B)
++O(T^{-2})
+\]
+
+Now the bias has two components: 1. \textbf{Mean effect} from
+\(\text{E}[A]\) 2. \textbf{Covariance effect} from \(\text{Cov}(A,B)\)
+
+This is why the coefficient changes from \(2\rho\) to \(1+3\rho\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Role of the sample
+mean}\label{role-of-the-sample-mean}
+
+The fundamental difference between the two cases is the presence of the
+sample mean: \[
+y_{t-1} \quad \longrightarrow \quad (y_{t-1} - \bar y_{-1})
+\]
+
+This introduces global dependence: - \(\bar y_{-1}\) depends on all
+observations - each \(e_t\) affects future values of \(\bar y_{-1}\)
+
+This creates terms like \[
+\text{E}[e_t y_{s-1}] \neq 0 \quad \text{for } s>t
+\]
+
+which is exactly what produced \(\text{E}[A] \neq 0\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Order of magnitude}\label{order-of-magnitude}
+
+All key quantities scale as: \[
+\text{E}[A] = O(T^{-1}), \quad
+\text{Cov}(A,B) = O(T^{-1}), \quad
+\text{Var}(B) = O(T^{-1})
+\]
+
+Thus, \[
+\text{E}[\hat\beta_1 - \rho] = O(T^{-1})
+\]
+
+and higher-order terms are \(O(T^{-2})\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Direction of the bias}\label{direction-of-the-bias}
+
+For \(\rho > 0\): - both \(-2\rho\) and \(-(1+3\rho)\) are negative
+
+So in both cases: \[
+\text{E}[\hat\beta_1] < \rho
+\]
+
+\textbf{Interpretation:}\\
+OLS underestimates persistence in finite samples.
+
+This effect becomes more severe as \(\rho \to 1\), which is why
+near-unit-root processes are especially prone to bias.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{8. Big picture}\label{big-picture}
+
+The key insight is that:
+
+\begin{quote}
+\textbf{The bias is not caused by correlation between \(e_t\) and
+\(y_{t-1}\), but by the randomness of the denominator.}
+\end{quote}
+
+More precisely: - OLS is estimating a ratio of random quantities - even
+if the numerator has mean zero, the ratio does not - dependence across
+time induces nonzero covariance between numerator and denominator
+
+Adding a constant amplifies this effect by introducing global dependence
+through the sample mean.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{9. Why this matters}\label{why-this-matters}
+
+This bias has practical consequences:
+
+\begin{itemize}
+\tightlist
+\item
+  It explains why AR(1) estimates are systematically too small in short
+  samples
+\item
+  It motivates bias corrections and alternative estimators
+\item
+  It highlights the danger of interpreting OLS estimates of persistence
+  naively
+\end{itemize}
+
+In short, this is a clean example of how \textbf{finite-sample effects
+arise from nonlinear transformations of random variables}, even in
+otherwise simple models.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
